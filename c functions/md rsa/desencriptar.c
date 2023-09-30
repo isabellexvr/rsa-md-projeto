@@ -2,8 +2,8 @@
 #include <gmp.h>
 #include "functions.h"
 
-void expMod(mpz_t result, const mpz_t base, const mpz_t exponent, const mpz_t modulus) {
-    mpz_powm(result, base, exponent, modulus);
+void expMod(mpz_t result, const mpz_t base, const mpz_t expoente, const mpz_t mod) {
+    mpz_powm(result, base, expoente, mod);
 }
 
 int main(int argc, char const *argv[]){
@@ -38,7 +38,7 @@ int main(int argc, char const *argv[]){
     // Abra o arquivo de entrada
     FILE *inputFile = fopen("valores_encriptados.txt", "r");
     if (inputFile == NULL) {
-        perror("Erro ao abrir o arquivo de entrada");
+        perror("Você ainda não possui a chave pública");
         return 1;
     }
 
@@ -57,14 +57,14 @@ int main(int argc, char const *argv[]){
         mpz_t ascii;
         mpz_init(ascii);
 
-        // Descriptografa o valor e armazena em ascii
+        // rescriptografar o valor e armazenar em ascii
         expMod(ascii, ciphertext, inverse, n);
 
         unsigned long int asciiValue = mpz_get_ui(ascii);
         char decryptedChar = (char)asciiValue;
         printf("%c", decryptedChar);
 
-        // Escreva o caractere descriptografado no arquivo binário
+        // escrever o caractere descriptografado no arquivo binário
         fwrite(&decryptedChar, sizeof(char), 1, outputFile);
 
         mpz_clear(ascii);
@@ -72,11 +72,11 @@ int main(int argc, char const *argv[]){
 
     printf("\n");
 
-    // Feche os arquivos
+    // fechar os arquivos
     fclose(inputFile);
     fclose(outputFile);
 
-    // Libere a memória alocada
+    // liberar a memória alocada
     mpz_clear(p);
     mpz_clear(q);
     mpz_clear(e);

@@ -4,8 +4,9 @@
 #include <locale.h>
 #include <gmp.h>
 
-void expMod(mpz_t result, const mpz_t base, const mpz_t exponent, const mpz_t modulus) {
-    mpz_powm(result, base, exponent, modulus);
+//variáveis constantes para exponenciação modular rápida
+void expMod(mpz_t result, const mpz_t base, const mpz_t expoente, const mpz_t mod) {
+    mpz_powm(result, base, expoente, mod);
 }
 
 int main() {
@@ -29,12 +30,12 @@ int main() {
 
     arrSize = strlen(stringMessage);
 
-    // Crie uma array dinâmica para armazenar os valores encriptados
+    // array dinâmica para armazenar os valores encriptados
     mpz_t *encryptedValues = malloc(arrSize * sizeof(mpz_t));
 
     printf("Digitos ASCII da mensagem: ");
     for (i = 0; i < arrSize; i++) {
-        // Pré-codificação:
+        // pré-codificação:
         mpz_set_ui(asciiNum, (unsigned int)stringMessage[i]);
         mpz_init(encryptedValues[i]);
         expMod(encryptedValues[i], asciiNum, e_mpz, n_mpz);
@@ -43,7 +44,7 @@ int main() {
     }
     printf("\n");
 
-    // Salve os valores encriptados em um arquivo
+    // valores encriptados salvos em um arquivo
     FILE *file = fopen("valores_encriptados.txt", "w");
     if (file) {
         for (i = 0; i < arrSize; i++) {
