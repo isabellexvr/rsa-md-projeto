@@ -1,6 +1,8 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+//funcões geralmente necessárias no algoritmo de criptografia RSA
+
 int isPrime(int n);
 
 int getNextPrime(int n);
