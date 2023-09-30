@@ -1,19 +1,25 @@
 #include <stdio.h>
 #include <math.h>
-//#include "isPrime.h"
-/*#include "mdc.h"
-//#include "getNextPrime.h"
-#include "getNotRepFactors.h"
-#include "totient.h"
-//#include "getAllFactors.h"
-#include "modThroughFactors.h"*/
 #include "functions.h"
+#include <limits.h>
 
-int fermatEuler(int b, int e, long long int m){
+
+
+int main(){
+    int b, e;
+    long long int m;
+
+    printf("Valor de b: ");
+    scanf("%d", &b);
+    printf("Valor de e: ");
+    scanf("%d", &e);
+    printf("Valor de m: ");
+    scanf("%lld", &m);
+
     int newB, newE, newM, answer, totiente;
     long long int squared;
 
-        if(b == 10){
+    if(b == 10){
         newB = modThroughFactors(b,e,m);
         answer = newB % m;
         while(answer < 0){
@@ -29,14 +35,22 @@ int fermatEuler(int b, int e, long long int m){
     }
 
     totiente = totient(m);
+    printf("totiente: %d\n ", totiente);
 
     if(e > totiente){
         newE = e % totiente;
     }else{
-        newE = totiente % e;
+        //newE = totiente % e;
+        newB = modThroughFactors(b,newE,m);
+        answer = newB % m;
+        while(answer < 0){
+            answer += m;
+        }
+        printf("resultado: %d\n", answer);
+        return 0;
     }
 
-    //printf("expoente %d \n", newE);
+    printf("expoente %d \n", newE);
 
     if(newE > 4){
         newB = modThroughFactors(b,newE,m);
@@ -55,5 +69,6 @@ int fermatEuler(int b, int e, long long int m){
         answer += m;
     }
     
+    printf("resultado: %d\n", answer);
     return answer;
 }

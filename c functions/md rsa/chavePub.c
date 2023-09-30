@@ -1,6 +1,5 @@
 #include <stdio.h>
-#include "mdc.h"
-#include "isPrime.h"
+#include "functions.h"
 
 int main(int argc, char const *argv[])
 {
@@ -17,10 +16,14 @@ int main(int argc, char const *argv[])
             printf("p e q não são primos tente novamente.\n");
         }
 
-        if(isPrime(q) && isPrime(p) && mdc(e, (p-1)*(q-1), 0) ) flag = 1;
+        if(e > (p-1)*(q-1)){
+            printf("p e q não são primos tente novamente.\n");
+        }
+
+        if(isPrime(q) && isPrime(p) && mdc(e, (p-1)*(q-1), 0)  && e < (p-1)*(q-1)) flag = 1;
     }
 
-    printf("chave publica: p = %d q = %d\n", p, q);
+    printf("chave publica: p = %d q = %d\n", p*q, e);
     
 
     return 0;

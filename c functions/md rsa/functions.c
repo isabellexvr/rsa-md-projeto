@@ -1,5 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
+#include "functions.h"
+#include <limits.h>
+#include <gmp.h>
+
 
 int isPrime(int n){
     if(n < 2) return 0;
@@ -75,8 +80,7 @@ int extendMDC(int n1, int n2, int resto, int *addressA, int *addressB){
         s = s % *addressB;
     }
     
-    
-    return candidateS;
+    return s;
 }
 
 int inverso(int num1, int num2){
@@ -89,52 +93,53 @@ int inverso(int num1, int num2){
     return 0;
 }
 
-int fermatEuler(int b, int e, long long int m){
+int fermatEuler(int b, int e, long long m){
+    long long int maximum = LLONG_MAX;
+
     int newB, newE, newM, answer, totiente;
     long long int squared;
-
-        if(b == 10){
-        newB = modThroughFactors(b,e,m);
-        answer = newB % m;
-        while(answer < 0){
-            answer += m;
-        }
-        return answer;
-    }
+    long double exponenciacao;
 
     if(b > (b - m)){
-        newB = b - m;
+        //newB = b - m;
+        newB = b;
     }else{
         newB = b;
     }
 
-    totiente = totient(m);
+    squared = pow(newB, e);
+    //printf("sqr: %lld\n", squared);
+    
+    if((squared > maximum && squared > 0) || (squared < maximum && squared < 0)){
+        //printf("execeu\n");
+        totiente = totient(m);
+        //printf("totiente: %d\n ", totiente);
 
-    if(e > totiente){
-        newE = e % totiente;
-    }else{
-        newE = totiente % e;
-    }
-
-    //printf("expoente %d \n", newE);
-
-    if(newE > 4){
-        newB = modThroughFactors(b,newE,m);
-        answer = newB % m;
-        while(answer < 0){
-            answer += m;
+        if(e > totiente){
+            newE = e % totiente;
+        }else{
+            newE = totiente % e;
         }
-        return answer;
+
+        //printf("expoente %d \n", newE);
+
+        if(newE > 4){
+            newB = modThroughFactors(b,newE,m);
+            answer = newB % m;
+        }
+
+        squared = pow(newB, newE);
+        answer = squared % m;
+
+    }else{
+        answer = squared % m;
     }
-
-    squared = pow(newB, newE);
-
-    answer = squared % m;
 
     while(answer < 0){
-        answer += m;
+            answer += m;
     }
     
+    //printf("resultado: %d\n", answer);
     return answer;
 }
 
@@ -177,6 +182,7 @@ int getNotRepFactors(int number, int arr[]){
     return arrIndex;
 }
 
+
 int modThroughFactors(int base, int exp, int mod){
     int factors[10] = {0}, pendente = 1, arrSize;
     long long int novaBase = base;
@@ -189,11 +195,13 @@ int modThroughFactors(int base, int exp, int mod){
     arrSize = getAllFactors(exp, 0, factors);
 
     for (int i = 0; i < (arrSize ); i++){
-        //printf("fator: %d\n", factors[i]);
+        printf("fator: %d\n", factors[i]);
         long long int squared;
         squared = pow(novaBase, factors[i]);
-        //printf("elevado ao quadrado: %d\n", squared);
+        printf("elevado ao quadrado: %lld\n", squared);
         novaBase = squared % mod;
+
+
 
     }
 
@@ -203,3 +211,16 @@ int modThroughFactors(int base, int exp, int mod){
 
     return novaBase;
 }
+
+int chave_privada(int totiente, int e){
+    int d = 0;
+
+    while( (d*e) % totiente != 1 ){
+        d +=1;
+    }
+
+    return d;
+}
+
+
+

@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-#include "functions.h"
 #include <locale.h>
+#include "functions.h"
+#include <math.h>
 
 int main(int argc, char const *argv[]){
     char stringMessage[3000], asciiNumStr[3000];
@@ -60,20 +61,12 @@ int main(int argc, char const *argv[]){
     printf("\n");
 
     //encriptar:
-
-    printf("j?: %d\n", j);
-
-    for(i = 0; i < j; i++){
-        encryptedMessage[i] = fermatEuler(asciiNum[i], e, n);
-    }
-
-    //mensagem encriptada:
     printf("Mensagem codificada: ");
     for(i = 0; i < j; i++){
+        encryptedMessage[i] = fermatEuler(asciiNum[i], e, n);
         printf("%d ", encryptedMessage[i]);
     }
     printf("\n");
-
 
     return 0;
 }
