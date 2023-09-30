@@ -1,16 +1,19 @@
 import styled from "styled-components";
-import illustration from "../assets/illustration.png"
+import illustration from "../assets/illustration.png";
 
 export default function Home() {
   return (
     <HomeContainer>
       <LeftContainer>
-        <h1>
-          Criptografia <strong>RSA</strong>
-        </h1>
-        <p>
-          Gere chaves de criptação públicas, encripte e desencripte mensagens.
-        </p>
+        <div className="text">
+          <h1>
+            Criptografia <strong>RSA</strong>
+          </h1>
+          <p>
+            Gere chaves de criptação públicas, encripte e desencripte mensagens.
+          </p>
+        </div>
+
         <div className="buttons">
           <StartButton>COMECE AQUI</StartButton>
           <PresentationButton>
@@ -19,8 +22,8 @@ export default function Home() {
           </PresentationButton>
         </div>
       </LeftContainer>
-      <RightContainer >
-        <img alt="logo" src={illustration}/>
+      <RightContainer>
+        <img alt="logo" src={illustration} />
       </RightContainer>
     </HomeContainer>
   );
@@ -42,25 +45,29 @@ const LeftContainer = styled.div`
   padding-left: 6%;
   box-sizing: border-box;
   height: 60vh;
-  > h1 {
-    color: #fff;
-    font-family: Red Hat Text;
-    font-size: 64px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    > strong {
-      color: #8d76b4;
+  > .text {
+    > h1 {
+      color: #fff;
+      font-family: Red Hat Text;
+      font-size: 4.7vw;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      > strong {
+        color: #8d76b4;
+      }
+    }
+    > p {
+      padding-top: 1vw;
+      color: #a5a5a5;
+      font-family: Red Hat Mono;
+      font-size: 2vw;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
     }
   }
-  > p {
-    color: #a5a5a5;
-    font-family: Red Hat Mono;
-    font-size: 28px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-  }
+
   > .buttons {
     width: 93%;
     display: flex;
@@ -75,21 +82,22 @@ const RightContainer = styled.div`
 
   height: 60vh;
   position: relative;
-  >img{
+  > img {
     position: absolute;
     width: 50vw;
     top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 `;
 
 const StartButton = styled.button`
   all: unset;
-  width: 243px;
-  height: 59px;
-  border-radius: 17px;
+  //width: 243px;
+  width: 15vw;
+  //height: 59px;
+  height: 4.2vw;
+  border-radius: 1vw;
   background: linear-gradient(90deg, #675683 0.07%, #ab90db 99.92%);
   cursor: pointer;
   display: flex;
@@ -97,7 +105,7 @@ const StartButton = styled.button`
   justify-content: center;
   color: #fff;
   font-family: Red Hat Mono;
-  font-size: 1.35em;
+  font-size: 1.35vw;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -107,16 +115,16 @@ const PresentationButton = styled.button`
   all: unset;
   color: #fff;
   font-family: Red Hat Mono;
-  font-size: 1.35em;
+  font-size: 1.35vw;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   cursor: pointer;
   position: relative;
-  height: 59px;
-  >.line{
-    background-color: #AB90DB;
-    height: 3px;
+  height: 4.2vw;
+  > .line {
+    background-color: #ab90db;
+    height: 0.2vw;
     width: 100%;
     position: absolute;
     bottom: 0;
