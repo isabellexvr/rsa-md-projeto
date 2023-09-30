@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import colors from "./assets/colors"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import Presentation from './pages/Presentation';
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
       <AppContainer color={colors.black} >
         <Routes>
           <Route element={<Home/>} path='/'/>
+          <Route element={<Presentation/>} path='/about'/>
         </Routes>
       </AppContainer>
     </BrowserRouter>

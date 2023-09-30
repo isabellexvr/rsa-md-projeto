@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import illustration from "../assets/illustration.png";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
+
   return (
     <HomeContainer>
       <LeftContainer>
@@ -16,7 +19,7 @@ export default function Home() {
 
         <div className="buttons">
           <StartButton>COMECE AQUI</StartButton>
-          <PresentationButton>
+          <PresentationButton onClick={() => navigate("/about")}>
             COMO FUNCIONA?
             <div className="line"></div>
           </PresentationButton>
@@ -38,7 +41,7 @@ const HomeContainer = styled.div`
 
 const LeftContainer = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   //align-items: center;
   flex-direction: column;
   width: 48vw;
@@ -69,6 +72,7 @@ const LeftContainer = styled.div`
   }
 
   > .buttons {
+    padding-top: 5vw;
     width: 93%;
     display: flex;
     align-items: center;
