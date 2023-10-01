@@ -31,7 +31,7 @@ export default function Encryptation({ loading, setLoading }) {
     const sentForm = {...form, message: form.message.normalize("NFD").replace(/[\u0300-\u036f]/g, "")};
      try {
       axios
-        .post("http://localhost:4000/encriptar", sentForm)
+        .post("https://rsa-back.onrender.com/encriptar", sentForm)
         .then((answer) => {
           toast.success('Mensagem Encriptada com Sucesso!', {
             position: "top-right",
