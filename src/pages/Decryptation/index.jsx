@@ -8,6 +8,8 @@ import { StartButton } from "../styledComponents";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import axios from "axios";
 import { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Decryptation({ loading, setLoading }) {
   const [form, setForm] = useState({});
@@ -23,17 +25,36 @@ export default function Decryptation({ loading, setLoading }) {
   const sendForm = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(form);
+
     try {
       //https://rsa-back.onrender.com
       //http://localhost:4000/desencriptar
       axios
         .post("https://rsa-back.onrender.com/desencriptar", form)
         .then((answer) => {
-          console.log(answer.data);
           setDecryptedText(answer.data);
+          toast.success('Mensagem Desencriptada com Sucesso!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
         })
         .catch((err) => {
+          toast.error("Algo deu errado.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
           console.log(err);
         });
     } catch (err) {
@@ -116,6 +137,7 @@ export default function Decryptation({ loading, setLoading }) {
           <StartButton type="submit">DESENCRIPTAR</StartButton>
         </Form>
       </RightContainer>
+      <ToastContainer/>
     </PageContainer>
   );
 }

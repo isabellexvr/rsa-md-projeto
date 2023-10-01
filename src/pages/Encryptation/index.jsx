@@ -8,11 +8,15 @@ import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Encryptation({ loading, setLoading }) {
+
   const [form, setForm] = useState({});
   const [copied, setCopied] = useState(false);
   const [encryptedText, setEncryptedText] = useState(null);
+
   const navigate = useNavigate();
 
   const handleForm = ({ target: { value, name } }) => {
@@ -22,21 +26,41 @@ export default function Encryptation({ loading, setLoading }) {
   const sendForm = async (e) => {
     e.preventDefault();
     setLoading(true);
-    //https://rsa-back.onrender.com
+    //https://rsa-back.onrender.com/encriptar
     //http://localhost:4000/encriptar
-    try {
+    const sentForm = {...form, message: form.message.normalize("NFD").replace(/[\u0300-\u036f]/g, "")};
+     try {
       axios
-        .post("https://rsa-back.onrender.com/encriptar", form)
+        .post("http://localhost:4000/encriptar", sentForm)
         .then((answer) => {
-          console.log(answer.data);
+          toast.success('Mensagem Encriptada com Sucesso!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
           setEncryptedText(answer.data);
         })
         .catch((err) => {
+          toast.error("Algo deu errado.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
           console.log(err);
         });
     } catch (err) {
       console.log(err);
-    }
+    } 
   };
   return (
     <PageContainer>
@@ -104,6 +128,7 @@ export default function Encryptation({ loading, setLoading }) {
           <StartButton type="submit">ENCRIPTAR</StartButton>
         </Form>
       </RightContainer>
+      <ToastContainer/>
     </PageContainer>
   );
 }

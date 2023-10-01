@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function PublicKey({ loading, setLoading }) {
   const [form, setForm] = useState({});
@@ -21,7 +23,6 @@ export default function PublicKey({ loading, setLoading }) {
     setForm({ ...form, [name]: value });
   };
 
-
   const sendForm = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -31,13 +32,33 @@ export default function PublicKey({ loading, setLoading }) {
       //https://rsa-back.onrender.com
       //http://localhost:4000/public-key
       axios
-        .post("https://rsa-back.onrender.com/public-key", { pqe: numStr })
+        .post("http://localhost:4000/public-key", { pqe: numStr })
         .then((answer) => {
           console.log(answer.data);
+          toast.success('Chave Gerada com Sucesso!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
           setPublicKey(answer.data);
         })
         .catch((err) => {
-          console.log(err);
+          toast.error("Erro: " + err.response.data, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
+
         });
     } catch (err) {
       console.log(err);
@@ -104,21 +125,24 @@ export default function PublicKey({ loading, setLoading }) {
           ) : (
             <h2>Sua chave aparecerá aqui.</h2>
           )}
-            <div className="copy">
-              <CopyToClipboard
-                text={publicKey}
-                onCopy={() => {
-                  setCopied(true);
-                  setTimeout(() => setCopied(false), 3000);
-                }}
-              >
-                <CopyIcon copied={copied} />
-              </CopyToClipboard>
-              {copied && <CopiedMessage>Copiado!</CopiedMessage>}
-            </div>
+          <div className="copy">
+            <CopyToClipboard
+              text={publicKey}
+              onCopy={() => {
+                setCopied(true);
+                setTimeout(() => setCopied(false), 3000);
+              }}
+            >
+              <CopyIcon copied={copied} />
+            </CopyToClipboard>
+            {copied && <CopiedMessage>Copiado!</CopiedMessage>}
+          </div>
         </EncryptedText>
         <StartButton>GERAR CHAVE</StartButton>
       </Form>
+      <ToastContainer
+
+      />
     </PageContainer>
   );
 }
