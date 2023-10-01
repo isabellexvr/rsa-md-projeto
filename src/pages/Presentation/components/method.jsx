@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { Title } from "../../styledComponents/index";
 import illustration from "../../../assets/key-illustration.png";
 
+
 export default function Method() {
+
   return (
     <ComponentContainer>
       <Title>
@@ -21,6 +23,7 @@ export default function Method() {
       </Info>
     </ComponentContainer>
   );
+
 }
 
 const ComponentContainer = styled.section`
@@ -32,7 +35,6 @@ const ComponentContainer = styled.section`
   width: 100%;
   padding: 6vw;
   box-sizing: border-box;
-  //background-color: red;
 `;
 
 const Info = styled.div`

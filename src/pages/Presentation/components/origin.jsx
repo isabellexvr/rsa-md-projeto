@@ -6,8 +6,6 @@ import colors from "../../../assets/colors";
 
 export default function Origin() {
 
-
-
   return (
     <ComponentContainer>
       <BinaryIcon src={binary} />

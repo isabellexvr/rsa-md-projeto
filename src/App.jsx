@@ -4,6 +4,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Presentation from './pages/Presentation';
 import Options from './pages/Options';
+import PublicKey from './pages/PublicKey';
+import Encryptation from './pages/Encryptation';
+import Decryptation from './pages/Decryptation';
 
 function App() {
 
@@ -14,6 +17,9 @@ function App() {
           <Route element={<Home/>} path='/'/>
           <Route element={<Presentation/>} path='/about'/>
           <Route element={<Options/>} path='/options'/>
+          <Route element={<PublicKey/>} path='/public-key'/>
+          <Route element={<Encryptation/>} path='encrypt'/>
+          <Route element={<Decryptation/>} path='decrypt'/>
         </Routes>
       </AppContainer>
     </BrowserRouter>

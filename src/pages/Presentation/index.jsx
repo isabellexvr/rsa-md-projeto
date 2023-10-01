@@ -6,13 +6,14 @@ import { useInView } from "react-intersection-observer";
 import { Element, Link } from "react-scroll";
 import { IoIosArrowDown } from "react-icons/io";
 import colors from "../../assets/colors";
+import { useNavigate } from "react-router-dom";
 
 export default function Presentation() {
   const { ref: methodRef, inView: methodInView } = useInView({
     threshold: 0.5,
   });
 
-  console.log(methodInView);
+  const navigate = useNavigate();
 
   return (
     <PageContainer>
@@ -25,7 +26,7 @@ export default function Presentation() {
         <div ref={methodRef} className="method">
           <Method />
           {methodInView ? (
-        <StartButton>PRATICAR</StartButton>
+        <StartButton onClick={() => navigate("/options")} >PRATICAR</StartButton>
       ) : (
         <Link smooth duration={800} delay={10} to="method">
           <ArrowIcon />
