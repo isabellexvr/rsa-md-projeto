@@ -3,7 +3,11 @@ import { Title } from "../../styledComponents/index";
 import binary from "../../../assets/binary-code.png";
 import colors from "../../../assets/colors";
 
+
 export default function Origin() {
+
+
+
   return (
     <ComponentContainer>
       <BinaryIcon src={binary} />
@@ -23,6 +27,7 @@ export default function Origin() {
           dos anos 1970.
         </p>
       </Info>
+      
     </ComponentContainer>
   );
 }
@@ -73,3 +78,4 @@ const Info = styled.div`
     }
   }
 `;
+
