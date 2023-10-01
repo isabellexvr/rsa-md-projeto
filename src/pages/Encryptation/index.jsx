@@ -4,11 +4,15 @@ import binary from "../../assets/binary-code.png";
 import { useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 import { StartButton } from "../styledComponents";
-import {BsFillArrowLeftCircleFill} from "react-icons/bs"
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
-export default function Encryptation() {
+export default function Encryptation({ loading, setLoading }) {
   const [form, setForm] = useState({});
+  const [copied, setCopied] = useState(false);
+  const [encryptedText, setEncryptedText] = useState(null);
   const navigate = useNavigate();
 
   const handleForm = ({ target: { value, name } }) => {
@@ -17,8 +21,18 @@ export default function Encryptation() {
 
   const sendForm = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    console.log(form);
     try {
-      console.log("kk");
+      axios
+        .post("http://localhost:4000/encriptar", form)
+        .then((answer) => {
+          console.log(answer.data);
+          setEncryptedText(answer.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } catch (err) {
       console.log(err);
     }
@@ -33,9 +47,11 @@ export default function Encryptation() {
       </Title>
       <RightContainer>
         <img src={binary} />
-        <Form>
+        <Form onSubmit={sendForm}>
           <div className="textarea">
             <textarea
+              onChange={handleForm}
+              name="message"
               placeholder="Mensagem"
               wrap="hard"
               rows="4"
@@ -45,24 +61,48 @@ export default function Encryptation() {
           </div>
           <div className="inputs">
             <div className="input">
-              <SmallInput placeholder="n (p*q)" />
+              <SmallInput
+                onChange={handleForm}
+                type="number"
+                name="n"
+                placeholder="n (p*q)"
+              />
               <Line />
             </div>
             <div className="input">
-              <SmallInput placeholder="e" />
+              <SmallInput
+                onChange={handleForm}
+                type="number"
+                name="e"
+                placeholder="e"
+              />
               <Line />
             </div>
           </div>
           <EncryptedText>
-            <h1>43 23 45 29 99 32 123 43</h1>
-            <FaRegCopy />
-          </EncryptedText>
+          {encryptedText ? (
+            <KeyAnswer>
+              <h1>{encryptedText}</h1>
+            </KeyAnswer>
+          ) : (
+            <h2>O texto encriptado aparecerá aqui.</h2>
+          )}
+          <CopyToClipboard text={encryptedText} onCopy={() => setCopied(true)}>
+            <CopyIcon copied={copied} />
+          </CopyToClipboard>
+        </EncryptedText>
           <StartButton>ENCRIPTAR</StartButton>
         </Form>
       </RightContainer>
     </PageContainer>
   );
 }
+
+const CopyIcon = styled(FaRegCopy)`
+  font-size: 2vw;
+  cursor: pointer;
+  color: ${(p) => (p.copied ? "green" : colors.mediumPurple)};
+`;
 
 const PageContainer = styled.div`
   display: flex;
@@ -80,7 +120,7 @@ const Title = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  >svg{
+  > svg {
     position: absolute;
     top: 1vw;
     left: 50%;
@@ -170,7 +210,7 @@ const SmallInput = styled.input`
 
 const EncryptedText = styled.div`
   width: 35vw;
-  height: 10vw;
+  height: 8vw;
   background-color: ${colors.white};
   display: flex;
   align-items: center;
@@ -178,18 +218,29 @@ const EncryptedText = styled.div`
   z-index: 1;
   border-radius: 1.7vw;
   border: 0.15vw solid ${colors.mediumPurple};
-  > h1 {
-    color: ${colors.black};
+  margin-bottom: 4vw;
+  font-family: Red Hat Mono;
+  > h2 {
+    font-size: 1.2vw;
+    color: ${colors.grey};
+    width: 60%;
+    line-height: 1.3vw;
+  }
+`;
+
+const KeyAnswer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  > h1,
+  h3 {
+    width: 70%;
+    line-height: 1.8vw;
+    color: ${colors.darkPurple};
     text-align: justify;
-    font-family: Red Hat Mono;
-    font-size: 20px;
+    font-size: 1.3vw;
     font-style: normal;
     font-weight: 500;
-    line-height: normal;
   }
-  > svg {
-    font-size: 2.7vw;
-    cursor: pointer;
-    color: ${colors.darkPurple};
-  }
+
 `;

@@ -5,8 +5,9 @@ import {BsFillArrowLeftCircleFill} from "react-icons/bs"
 import { useNavigate } from "react-router-dom";
 import { FaRegCopy } from "react-icons/fa";
 import { StartButton } from "../styledComponents";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
-export default function Decryptation() {
+export default function Decryptation({loading, setLoading}) {
   const navigate = useNavigate();
   return (
     <PageContainer>
@@ -44,7 +45,10 @@ export default function Decryptation() {
           </div>
           <EncryptedText>
             <h1>cachorro</h1>
-            <FaRegCopy />
+            <CopyToClipboard text="" >
+              <FaRegCopy />
+            </CopyToClipboard>
+            
           </EncryptedText>
           <StartButton>DESENCRIPTAR</StartButton>
         </Form>
