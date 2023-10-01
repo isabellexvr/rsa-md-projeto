@@ -21,7 +21,7 @@ export default function PublicKey({ loading, setLoading }) {
     setForm({ ...form, [name]: value });
   };
 
-  console.log(form);
+  
 
   const sendForm = async (e) => {
     e.preventDefault();
@@ -30,8 +30,9 @@ export default function PublicKey({ loading, setLoading }) {
     console.log(numStr);
     try {
       //https://rsa-back.onrender.com
+      //http://localhost:4000/public-key
       axios
-        .post("http://localhost:4000/public-key", { pqe: numStr })
+        .post("https://rsa-back.onrender.com/public-key", { pqe: numStr })
         .then((answer) => {
           console.log(answer.data);
           setPublicKey(answer.data);
@@ -108,7 +109,7 @@ export default function PublicKey({ loading, setLoading }) {
             <CopyIcon copied={copied} />
           </CopyToClipboard>
         </EncryptedText>
-        <StartButton disabled={loading}>GERAR CHAVE</StartButton>
+        <StartButton>GERAR CHAVE</StartButton>
       </Form>
     </PageContainer>
   );

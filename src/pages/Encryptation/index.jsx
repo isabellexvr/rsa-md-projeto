@@ -23,9 +23,11 @@ export default function Encryptation({ loading, setLoading }) {
     e.preventDefault();
     setLoading(true);
     console.log(form);
+    //https://rsa-back.onrender.com
+    //http://localhost:4000/encriptar
     try {
       axios
-        .post("http://localhost:4000/encriptar", form)
+        .post("https://rsa-back.onrender.com/encriptar", form)
         .then((answer) => {
           console.log(answer.data);
           setEncryptedText(answer.data);

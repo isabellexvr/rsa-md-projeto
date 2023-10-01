@@ -18,7 +18,9 @@ export default function Home() {
         </div>
 
         <div className="buttons">
-          <StartButton>COMECE AQUI</StartButton>
+          <StartButton onClick={() => navigate("/options")}>
+            COMECE AQUI
+          </StartButton>
           <PresentationButton onClick={() => navigate("/about")}>
             COMO FUNCIONA?
             <div className="line"></div>

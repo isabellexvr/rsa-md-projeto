@@ -25,8 +25,10 @@ export default function Decryptation({ loading, setLoading }) {
     setLoading(true);
     console.log(form);
     try {
+      //https://rsa-back.onrender.com
+      //http://localhost:4000/desencriptar
       axios
-        .post("http://localhost:4000/desencriptar", form)
+        .post("https://rsa-back.onrender.com/desencriptar", form)
         .then((answer) => {
           console.log(answer.data);
           setDecryptedText(answer.data);
