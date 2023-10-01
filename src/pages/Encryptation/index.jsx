@@ -4,9 +4,12 @@ import binary from "../../assets/binary-code.png";
 import { useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 import { StartButton } from "../styledComponents";
+import {BsFillArrowLeftCircleFill} from "react-icons/bs"
+import { useNavigate } from "react-router-dom";
 
 export default function Encryptation() {
   const [form, setForm] = useState({});
+  const navigate = useNavigate();
 
   const handleForm = ({ target: { value, name } }) => {
     setForm({ ...form, [name]: value });
@@ -23,6 +26,7 @@ export default function Encryptation() {
   return (
     <PageContainer>
       <Title>
+        <BsFillArrowLeftCircleFill onClick={() => navigate("/options")} />
         <h1>
           En<strong>cript</strong>ação
         </h1>
@@ -75,6 +79,16 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  >svg{
+    position: absolute;
+    top: 1vw;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.2vw;
+    color: ${colors.lightPurple};
+    cursor: pointer;
+  }
   > h1 {
     color: #fff;
     text-align: center;

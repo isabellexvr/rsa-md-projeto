@@ -2,27 +2,29 @@ import styled from "styled-components";
 import { BiSolidKey } from "react-icons/bi";
 import { HiLockClosed, HiLockOpen } from "react-icons/hi";
 import colors from "../../assets/colors";
+import { useNavigate } from "react-router-dom";
 
 export default function Options() {
+  const navigate = useNavigate();
   return (
     <PageContainer>
       <Title>
         <h1>O Que deseja?</h1>
       </Title>
       <div className="options">
-        <div className="option">
+        <div className="option" onClick={() => navigate("/public-key")} >
           <Option>
             <BiSolidKey />
           </Option>
           <h1>Gerar Chave Pública</h1>
         </div>
-        <div className="option">
+        <div className="option" onClick={() => navigate("/encrypt")}>
           <Option>
             <HiLockClosed />
           </Option>
           <h1>Encriptar Mensagem</h1>
         </div>
-        <div className="option">
+        <div className="option" onClick={() => navigate("/decrypt")} >
           <Option>
             <HiLockOpen />
           </Option>
