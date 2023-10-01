@@ -3,6 +3,7 @@ import { BiSolidKey } from "react-icons/bi";
 import { HiLockClosed, HiLockOpen } from "react-icons/hi";
 import colors from "../../assets/colors";
 import { useNavigate } from "react-router-dom";
+import { GoHomeFill } from "react-icons/go";
 
 export default function Options() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function Options() {
         <h1>O Que deseja?</h1>
       </Title>
       <div className="options">
-        <div className="option" onClick={() => navigate("/public-key")} >
+        <div className="option" onClick={() => navigate("/public-key")}>
           <Option>
             <BiSolidKey />
           </Option>
@@ -24,16 +25,45 @@ export default function Options() {
           </Option>
           <h1>Encriptar Mensagem</h1>
         </div>
-        <div className="option" onClick={() => navigate("/decrypt")} >
+        <div className="option" onClick={() => navigate("/decrypt")}>
           <Option>
             <HiLockOpen />
           </Option>
           <h1>Desencriptar Mensagem</h1>
         </div>
       </div>
+      <HomeIcon onClick={() => navigate("/")} >
+        <GoHomeFill />
+        <h1>Início</h1>
+      </HomeIcon>
     </PageContainer>
   );
 }
+
+const HomeIcon = styled.div`
+
+  width: 100%;
+  height: 6vw;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+  > svg {
+    font-size: 4vw;
+    color: ${colors.mediumPurple};
+    margin-bottom: 0.5vw;
+    cursor: pointer;
+  }
+  > h1 {
+    color: ${colors.lightPurple};
+    font-family: Red Hat Mono;
+    font-size: 1vw;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    cursor: pointer;
+  }
+`;
 
 const Title = styled.div`
   height: 10vw;
@@ -56,15 +86,21 @@ const Title = styled.div`
 `;
 
 const PageContainer = styled.div`
+  height: 65vh;
+  margin-top: 13vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   > .options {
     display: flex;
     justify-content: space-around;
-    //background-color: red;
     width: 65vw;
     > .option {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       > h1 {
         margin-top: 1vw;
         color: ${colors.lightPurple};
