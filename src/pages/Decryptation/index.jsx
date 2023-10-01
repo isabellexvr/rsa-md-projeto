@@ -1,14 +1,44 @@
 import styled from "styled-components";
 import colors from "../../assets/colors";
 import binary from "../../assets/binary-code.png";
-import {BsFillArrowLeftCircleFill} from "react-icons/bs"
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { FaRegCopy } from "react-icons/fa";
 import { StartButton } from "../styledComponents";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import axios from "axios";
+import { useState } from "react";
 
-export default function Decryptation({loading, setLoading}) {
+export default function Decryptation({ loading, setLoading }) {
+  const [form, setForm] = useState({});
+  const [copied, setCopied] = useState(false);
+  const [decryptedText, setDecryptedText] = useState(null);
+
   const navigate = useNavigate();
+
+  const handleForm = ({ target: { value, name } }) => {
+    setForm({ ...form, [name]: value });
+  };
+
+  const sendForm = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    console.log(form);
+    try {
+      axios
+        .post("http://localhost:4000/desencriptar", form)
+        .then((answer) => {
+          console.log(answer.data);
+          setDecryptedText(answer.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <PageContainer>
       <Title>
@@ -19,10 +49,12 @@ export default function Decryptation({loading, setLoading}) {
       </Title>
       <RightContainer>
         <img src={binary} />
-        <Form>
+        <Form onSubmit={sendForm}>
           <div className="textarea">
             <textarea
-              placeholder="Mensagem Encriptada" 
+              onChange={handleForm}
+              name="encryptedStr"
+              placeholder="Mensagem Encriptada"
               wrap="hard"
               rows="4"
               cols="40"
@@ -31,26 +63,49 @@ export default function Decryptation({loading, setLoading}) {
           </div>
           <div className="inputs">
             <div className="input">
-              <SmallInput placeholder="p" />
+              <SmallInput
+                onChange={handleForm}
+                type="number"
+                name="p"
+                placeholder="p"
+              />
               <Line />
             </div>
             <div className="input">
-              <SmallInput placeholder="q" />
+              <SmallInput
+                onChange={handleForm}
+                type="number"
+                name="q"
+                placeholder="q"
+              />
               <Line />
             </div>
             <div className="input">
-              <SmallInput placeholder="e" />
+              <SmallInput
+                onChange={handleForm}
+                type="number"
+                name="e"
+                placeholder="e"
+              />
               <Line />
             </div>
           </div>
           <EncryptedText>
-            <h1>cachorro</h1>
-            <CopyToClipboard text="" >
-              <FaRegCopy />
+            {decryptedText ? (
+              <KeyAnswer>
+                <h1>{decryptedText}</h1>
+              </KeyAnswer>
+            ) : (
+              <h2>O texto encriptado aparecerá aqui.</h2>
+            )}
+            <CopyToClipboard
+              text={decryptedText}
+              onCopy={() => setCopied(true)}
+            >
+              <CopyIcon copied={copied} />
             </CopyToClipboard>
-            
           </EncryptedText>
-          <StartButton>DESENCRIPTAR</StartButton>
+          <StartButton type="submit">DESENCRIPTAR</StartButton>
         </Form>
       </RightContainer>
     </PageContainer>
@@ -73,7 +128,7 @@ const Title = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  >svg{
+  > svg {
     position: absolute;
     top: 1vw;
     left: 50%;
@@ -163,7 +218,7 @@ const SmallInput = styled.input`
 
 const EncryptedText = styled.div`
   width: 35vw;
-  height: 10vw;
+  height: 8vw;
   background-color: ${colors.white};
   display: flex;
   align-items: center;
@@ -171,18 +226,34 @@ const EncryptedText = styled.div`
   z-index: 1;
   border-radius: 1.7vw;
   border: 0.15vw solid ${colors.mediumPurple};
-  > h1 {
-    color: ${colors.black};
+  margin-bottom: 4vw;
+  font-family: Red Hat Mono;
+  > h2 {
+    font-size: 1.2vw;
+    color: ${colors.grey};
+    width: 60%;
+    line-height: 1.3vw;
+  }
+`;
+
+const CopyIcon = styled(FaRegCopy)`
+  font-size: 2vw;
+  cursor: pointer;
+  color: ${(p) => (p.copied ? "green" : colors.mediumPurple)};
+`;
+
+const KeyAnswer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  > h1,
+  h3 {
+    width: 100%;
+    line-height: 1.8vw;
+    color: ${colors.darkPurple};
     text-align: justify;
-    font-family: Red Hat Mono;
-    font-size: 20px;
+    font-size: 1.3vw;
     font-style: normal;
     font-weight: 500;
-    line-height: normal;
-  }
-  > svg {
-    font-size: 2.7vw;
-    cursor: pointer;
-    color: ${colors.darkPurple};
   }
 `;
