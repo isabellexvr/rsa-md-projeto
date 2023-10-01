@@ -3,6 +3,7 @@ import colors from "./assets/colors"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Presentation from './pages/Presentation';
+import Options from './pages/Options';
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route element={<Home/>} path='/'/>
           <Route element={<Presentation/>} path='/about'/>
+          <Route element={<Options/>} path='/options'/>
         </Routes>
       </AppContainer>
     </BrowserRouter>
