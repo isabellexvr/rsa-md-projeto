@@ -1,9 +1,30 @@
 import styled from "styled-components";
 import illustration from "../assets/illustration.png";
 import { useNavigate } from "react-router-dom";
+import { useKeys } from "../contexts/keysContext";
+import { useEncrypted } from "../contexts/encryptedContext";
+import { useDecrypted } from "../contexts/decryptedContext";
 
 export default function Home() {
   const navigate = useNavigate();
+
+  const { setKeys } = useKeys();
+  const { setEncrypted } = useEncrypted();
+  const { setDecrypted } = useDecrypted();
+
+  const firstTime = JSON.parse(localStorage.getItem("keys") || "[]");
+  if (!firstTime) {
+    const emptyArr = [];
+    localStorage.setItem("keys", JSON.stringify(emptyArr));
+    localStorage.setItem("encrypted", JSON.stringify(emptyArr));
+    localStorage.setItem("decrypted", JSON.stringify(emptyArr));
+  } else {
+    setKeys(firstTime);
+    const encrypted = JSON.parse(localStorage.getItem("encrypted") || "[]");
+    const decrypted = JSON.parse(localStorage.getItem("decrypted") || "[]");
+    setEncrypted(encrypted);
+    setDecrypted(decrypted);
+  }
 
   return (
     <HomeContainer>

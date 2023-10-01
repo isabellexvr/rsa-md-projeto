@@ -10,12 +10,25 @@ import axios from "axios";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useKeys } from "../../contexts/keysContext";
+import { useEncrypted } from "../../contexts/encryptedContext";
+import { useDecrypted } from "../../contexts/decryptedContext";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 
-export default function PublicKey({ loading, setLoading }) {
+export default function PublicKey({
+  loading,
+  setLoading,
+  sidebar,
+  setSidebar,
+}) {
   const [form, setForm] = useState({});
 
   const [publicKey, setPublicKey] = useState(null);
   const [copied, setCopied] = useState(false);
+  const { keys, setKeys } = useKeys();
+  const { encrypted, setEncrypted } = useEncrypted();
+  const { decrypted, setDecrypted } = useDecrypted();
 
   const navigate = useNavigate();
 
@@ -32,10 +45,10 @@ export default function PublicKey({ loading, setLoading }) {
       //https://rsa-back.onrender.com
       //http://localhost:4000/public-key
       axios
-        .post("https://rsa-back.onrender.com/public-key", { pqe: numStr })
+        .post("http://localhost:4000/public-key", { pqe: numStr })
         .then((answer) => {
-          console.log(answer.data);
-          toast.success('Chave Gerada com Sucesso!', {
+          //console.log(answer.data);
+          toast.success("Chave Gerada com Sucesso!", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -44,8 +57,18 @@ export default function PublicKey({ loading, setLoading }) {
             draggable: true,
             progress: undefined,
             theme: "dark",
-            });
+          });
           setPublicKey(answer.data);
+          const localKeys = JSON.parse(localStorage.getItem("keys"));
+          if (!localKeys) {
+            const newArr = [answer.data];
+            localStorage.setItem("keys", JSON.stringify(newArr));
+          } else {
+            localKeys.push(answer.data);
+            localStorage.setItem("keys", JSON.stringify(localKeys));
+          }
+
+          setKeys(localKeys);
         })
         .catch((err) => {
           toast.error("Erro: " + err.response.data, {
@@ -57,8 +80,7 @@ export default function PublicKey({ loading, setLoading }) {
             draggable: true,
             progress: undefined,
             theme: "dark",
-            });
-
+          });
         });
     } catch (err) {
       console.log(err);
@@ -66,84 +88,97 @@ export default function PublicKey({ loading, setLoading }) {
   };
 
   return (
-    <PageContainer>
-      <div className="top">
-        <BsFillArrowLeftCircleFill onClick={() => navigate("/options")} />
-        <BiSolidKey />
-        <h1>
-          Chave <strong>Pública</strong>
-        </h1>
-        <h3>
-          É necessário criar a chave pública antes de encriptar ou desencriptar.
-        </h3>
-      </div>
-
-      <Form onSubmit={sendForm}>
-        <div className="inputs">
-          <div className="input">
-            <SmallInput
-              type="number"
-              pattern="[0-9]+"
-              name="p"
-              onChange={handleForm}
-              placeholder="p"
-              min="11"
-            />
-            <Line />
-          </div>
-          <div className="input">
-            <SmallInput
-              type="number"
-              pattern="[0-9]+"
-              name="q"
-              onChange={handleForm}
-              placeholder="q"
-              min="11"
-            />
-            <Line />
-          </div>
-          <div className="input">
-            <SmallInput
-              type="number"
-              pattern="[0-9]+"
-              name="e"
-              onChange={handleForm}
-              placeholder="e"
-            />
-            <Line />
-          </div>
-        </div>
-        <EncryptedText>
-          {publicKey ? (
-            <KeyAnswer>
-              <h1>{publicKey}</h1>
-              <div className="par-ordenado">
-                <h3>n</h3>
-                <h3>e</h3>
-              </div>
-            </KeyAnswer>
-          ) : (
-            <h2>Sua chave aparecerá aqui.</h2>
-          )}
-          <div className="copy">
-            <CopyToClipboard
-              text={publicKey}
-              onCopy={() => {
-                setCopied(true);
-                setTimeout(() => setCopied(false), 3000);
-              }}
-            >
-              <CopyIcon copied={copied} />
-            </CopyToClipboard>
-            {copied && <CopiedMessage>Copiado!</CopiedMessage>}
-          </div>
-        </EncryptedText>
-        <StartButton>GERAR CHAVE</StartButton>
-      </Form>
-      <ToastContainer
-
+    <>
+      <Sidebar
+        sidebar={sidebar}
+        setSidebar={setSidebar}
+        keys={keys}
+        setKeys={setKeys}
+        encrypted={encrypted}
+        setEncrypted={setEncrypted}
+        decrypted={decrypted}
+        setDecrypted={setDecrypted}
       />
-    </PageContainer>
+      <Header sidebar={sidebar} setSidebar={setSidebar} />
+      <PageContainer>
+        <div className="top">
+          <BsFillArrowLeftCircleFill onClick={() => navigate("/options")} />
+
+          <BiSolidKey />
+          <h1>
+            Chave <strong>Pública</strong>
+          </h1>
+          <h3>
+            É necessário criar a chave pública antes de encriptar ou
+            desencriptar.
+          </h3>
+        </div>
+
+        <Form onSubmit={sendForm}>
+          <div className="inputs">
+            <div className="input">
+              <SmallInput
+                type="number"
+                pattern="[0-9]+"
+                name="p"
+                onChange={handleForm}
+                placeholder="p"
+                min="11"
+              />
+              <Line />
+            </div>
+            <div className="input">
+              <SmallInput
+                type="number"
+                pattern="[0-9]+"
+                name="q"
+                onChange={handleForm}
+                placeholder="q"
+                min="11"
+              />
+              <Line />
+            </div>
+            <div className="input">
+              <SmallInput
+                type="number"
+                pattern="[0-9]+"
+                name="e"
+                onChange={handleForm}
+                placeholder="e"
+              />
+              <Line />
+            </div>
+          </div>
+          <EncryptedText>
+            {publicKey ? (
+              <KeyAnswer>
+                <h1>{publicKey}</h1>
+                <div className="par-ordenado">
+                  <h3>n</h3>
+                  <h3>e</h3>
+                </div>
+              </KeyAnswer>
+            ) : (
+              <h2>Sua chave aparecerá aqui.</h2>
+            )}
+            <div className="copy">
+              <CopyToClipboard
+                text={publicKey}
+                onCopy={() => {
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 3000);
+                }}
+              >
+                <CopyIcon copied={copied} />
+              </CopyToClipboard>
+              {copied && <CopiedMessage>Copiado!</CopiedMessage>}
+            </div>
+          </EncryptedText>
+          <StartButton>GERAR CHAVE</StartButton>
+        </Form>
+        <ToastContainer />
+      </PageContainer>
+    </>
   );
 }
 

@@ -8,41 +8,77 @@ import PublicKey from "./pages/PublicKey";
 import Encryptation from "./pages/Encryptation";
 import Decryptation from "./pages/Decryptation";
 import { useState } from "react";
+import KeysProvider from "./contexts/keysContext";
+import DecryptedProvider from "./contexts/decryptedContext";
+import EncryptedProvider from "./contexts/encryptedContext";
+import Header from "./pages/components/Header";
 
 function App() {
   const [loading, setLoading] = useState(false);
+  const [sidebar, setSidebar] = useState(false);
 
   return (
-    <BrowserRouter>
-      <AppContainer color={colors.black}>
-        <Routes>
-          <Route
-            element={<Home loading={loading} setLoading={setLoading} />}
-            path="/"
-          />
-          <Route
-            element={<Presentation loading={loading} setLoading={setLoading} />}
-            path="/about"
-          />
-          <Route
-            element={<Options loading={loading} setLoading={setLoading} />}
-            path="/options"
-          />
-          <Route
-            element={<PublicKey loading={loading} setLoading={setLoading} />}
-            path="/public-key"
-          />
-          <Route
-            element={<Encryptation loading={loading} setLoading={setLoading} />}
-            path="encrypt"
-          />
-          <Route
-            element={<Decryptation loading={loading} setLoading={setLoading} />}
-            path="decrypt"
-          />
-        </Routes>
-      </AppContainer>
-    </BrowserRouter>
+    <KeysProvider>
+      <DecryptedProvider>
+        <EncryptedProvider>
+          <BrowserRouter>
+            <AppContainer color={colors.black}>
+              <Routes>
+                <Route
+                  element={<Home loading={loading} setLoading={setLoading} />}
+                  path="/"
+                />
+                <Route
+                  element={
+                    <Presentation loading={loading} setLoading={setLoading} />
+                  }
+                  path="/about"
+                />
+                <Route
+                  element={
+                    <Options loading={loading} setLoading={setLoading} />
+                  }
+                  path="/options"
+                />
+                <Route
+                  element={
+                    <PublicKey
+                      loading={loading}
+                      setLoading={setLoading}
+                      sidebar={sidebar}
+                      setSidebar={setSidebar}
+                    />
+                  }
+                  path="/public-key"
+                />
+                <Route
+                  element={
+                    <Encryptation
+                      loading={loading}
+                      setLoading={setLoading}
+                      sidebar={sidebar}
+                      setSidebar={setSidebar}
+                    />
+                  }
+                  path="encrypt"
+                />
+                <Route
+                  element={
+                    <Decryptation
+                      loading={loading}
+                      setLoading={setLoading}
+                      sidebar={sidebar}
+                      setSidebar={setSidebar}
+                    />
+                  }
+                  path="decrypt"
+                />
+              </Routes>
+            </AppContainer>
+          </BrowserRouter>
+        </EncryptedProvider>
+      </DecryptedProvider>
+    </KeysProvider>
   );
 }
 
