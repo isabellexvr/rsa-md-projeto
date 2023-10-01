@@ -32,7 +32,7 @@ export default function PublicKey({ loading, setLoading }) {
       //https://rsa-back.onrender.com
       //http://localhost:4000/public-key
       axios
-        .post("http://localhost:4000/public-key", { pqe: numStr })
+        .post("https://rsa-back.onrender.com/public-key", { pqe: numStr })
         .then((answer) => {
           console.log(answer.data);
           toast.success('Chave Gerada com Sucesso!', {
