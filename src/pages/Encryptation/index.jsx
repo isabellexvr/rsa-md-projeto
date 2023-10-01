@@ -22,7 +22,6 @@ export default function Encryptation({ loading, setLoading }) {
   const sendForm = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(form);
     //https://rsa-back.onrender.com
     //http://localhost:4000/encriptar
     try {
@@ -82,23 +81,39 @@ export default function Encryptation({ loading, setLoading }) {
             </div>
           </div>
           <EncryptedText>
-          {encryptedText ? (
-            <KeyAnswer>
-              <h1>{encryptedText}</h1>
-            </KeyAnswer>
-          ) : (
-            <h2>O texto encriptado aparecerá aqui.</h2>
-          )}
-          <CopyToClipboard text={encryptedText} onCopy={() => setCopied(true)}>
-            <CopyIcon copied={copied} />
-          </CopyToClipboard>
-        </EncryptedText>
-          <StartButton>ENCRIPTAR</StartButton>
+            {encryptedText ? (
+              <KeyAnswer>
+                <h1>{encryptedText}</h1>
+              </KeyAnswer>
+            ) : (
+              <h2>O texto encriptado aparecerá aqui.</h2>
+            )}
+            <div className="copy">
+              <CopyToClipboard
+                text={encryptedText}
+                onCopy={() => {
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 3000);
+                }}
+              >
+                <CopyIcon copied={copied} />
+              </CopyToClipboard>
+              {copied && <CopiedMessage>Copiado!</CopiedMessage>}
+            </div>
+          </EncryptedText>
+          <StartButton type="submit">ENCRIPTAR</StartButton>
         </Form>
       </RightContainer>
     </PageContainer>
   );
 }
+
+const CopiedMessage = styled.h1`
+  font-size: 0.7vw;
+  color: green;
+  position: absolute;
+  bottom: 0;
+`;
 
 const CopyIcon = styled(FaRegCopy)`
   font-size: 2vw;
@@ -228,6 +243,15 @@ const EncryptedText = styled.div`
     width: 60%;
     line-height: 1.3vw;
   }
+  > .copy {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1vw;
+    width: 10%;
+    justify-content: center;
+  }
 `;
 
 const KeyAnswer = styled.div`
@@ -244,5 +268,4 @@ const KeyAnswer = styled.div`
     font-style: normal;
     font-weight: 500;
   }
-
 `;

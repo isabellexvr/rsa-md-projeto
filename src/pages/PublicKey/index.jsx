@@ -21,7 +21,6 @@ export default function PublicKey({ loading, setLoading }) {
     setForm({ ...form, [name]: value });
   };
 
-  
 
   const sendForm = async (e) => {
     e.preventDefault();
@@ -105,15 +104,31 @@ export default function PublicKey({ loading, setLoading }) {
           ) : (
             <h2>Sua chave aparecerá aqui.</h2>
           )}
-          <CopyToClipboard text={publicKey} onCopy={() => setCopied(true)}>
-            <CopyIcon copied={copied} />
-          </CopyToClipboard>
+            <div className="copy">
+              <CopyToClipboard
+                text={publicKey}
+                onCopy={() => {
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 3000);
+                }}
+              >
+                <CopyIcon copied={copied} />
+              </CopyToClipboard>
+              {copied && <CopiedMessage>Copiado!</CopiedMessage>}
+            </div>
         </EncryptedText>
         <StartButton>GERAR CHAVE</StartButton>
       </Form>
     </PageContainer>
   );
 }
+
+const CopiedMessage = styled.h1`
+  font-size: 0.7vw;
+  color: green;
+  position: absolute;
+  bottom: 0;
+`;
 
 const KeyAnswer = styled.div`
   display: flex;
@@ -229,8 +244,8 @@ const CopyIcon = styled(FaRegCopy)`
 `;
 
 const EncryptedText = styled.div`
-  width: 20vw;
-  height: 7vw;
+  width: 35vw;
+  height: 8vw;
   background-color: ${colors.white};
   display: flex;
   align-items: center;
@@ -241,10 +256,19 @@ const EncryptedText = styled.div`
   margin-bottom: 4vw;
   font-family: Red Hat Mono;
   > h2 {
-    font-size: 1vw;
+    font-size: 1.2vw;
     color: ${colors.grey};
-    width: 50%;
+    width: 60%;
     line-height: 1.3vw;
+  }
+  > .copy {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1vw;
+    width: 10%;
+    justify-content: center;
   }
 `;
 

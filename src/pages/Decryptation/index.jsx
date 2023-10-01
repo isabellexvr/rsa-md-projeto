@@ -100,12 +100,18 @@ export default function Decryptation({ loading, setLoading }) {
             ) : (
               <h2>O texto encriptado aparecerá aqui.</h2>
             )}
-            <CopyToClipboard
-              text={decryptedText}
-              onCopy={() => setCopied(true)}
-            >
-              <CopyIcon copied={copied} />
-            </CopyToClipboard>
+            <div className="copy">
+              <CopyToClipboard
+                text={decryptedText}
+                onCopy={() => {
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 3000);
+                }}
+              >
+                <CopyIcon copied={copied} />
+              </CopyToClipboard>
+              {copied && <CopiedMessage>Copiado!</CopiedMessage>}
+            </div>
           </EncryptedText>
           <StartButton type="submit">DESENCRIPTAR</StartButton>
         </Form>
@@ -113,6 +119,13 @@ export default function Decryptation({ loading, setLoading }) {
     </PageContainer>
   );
 }
+
+const CopiedMessage = styled.h1`
+  font-size: 0.7vw;
+  color: green;
+  position: absolute;
+  bottom: 0;
+`;
 
 const PageContainer = styled.div`
   display: flex;
@@ -235,6 +248,15 @@ const EncryptedText = styled.div`
     color: ${colors.grey};
     width: 60%;
     line-height: 1.3vw;
+  }
+  > .copy {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1vw;
+    width: 10%;
+    justify-content: center;
   }
 `;
 
