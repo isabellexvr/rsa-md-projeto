@@ -306,7 +306,9 @@ const SmallInput = styled.input`
 
 const EncryptedText = styled.div`
   width: 35vw;
-  height: 8vw;
+  height: fit-content;
+  padding: 1vw;
+  box-sizing: border-box;
   background-color: ${colors.white};
   display: flex;
   align-items: center;

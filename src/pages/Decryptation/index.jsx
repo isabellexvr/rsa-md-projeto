@@ -309,7 +309,9 @@ const SmallInput = styled.input`
 
 const EncryptedText = styled.div`
   width: 35vw;
-  height: 8vw;
+  height: fit-content;
+  padding: 1vw;
+  box-sizing: border-box;
   background-color: ${colors.white};
   display: flex;
   align-items: center;
@@ -348,11 +350,11 @@ const KeyAnswer = styled.div`
   align-items: center;
   > h1,
   h3 {
-    width: 100%;
+    width: 90%;
     line-height: 1.8vw;
     color: ${colors.darkPurple};
     text-align: justify;
-    font-size: 1.3vw;
+    font-size: 1.2vw;
     font-style: normal;
     font-weight: 500;
   }
