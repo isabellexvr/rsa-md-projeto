@@ -12,3 +12,8 @@
       </ul>
   <h3 alignt="left" >Objetivo: </h3>
     <p>Desenvolver uma interface gráfica que integre o backend em C a diferentes tecnologias, a fim de proporcionar uma experiência de usuário quanto à criptografia RSA.</p>
+<h3 alignt="left" >Tecnologias utilizadas: </h3>
+    <ul alignt="left">
+        <li>HTML, CSS e JS</li>
+        <li>ReactJS + Vite</li>
+    </ul>
