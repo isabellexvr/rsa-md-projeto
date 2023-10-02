@@ -46,7 +46,7 @@ export default function Encryptation({
     };
     try {
       axios
-        .post("https://rsa-back.onrender.com/encriptar", sentForm)
+        .post("http://localhost:4000/encriptar", sentForm)
         .then((answer) => {
           toast.success("Mensagem Encriptada com Sucesso!", {
             position: "top-right",

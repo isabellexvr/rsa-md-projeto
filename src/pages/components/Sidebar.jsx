@@ -18,15 +18,15 @@ export default function Sidebar({
   setLoading
 }) {
 
-  console.log(loading)
+  console.log(encrypted)
 
   useEffect(() => {
     const keys = JSON.parse(localStorage.getItem("keys") || "[]");
     const encrypted = JSON.parse(
-      localStorage.getItem("encryptedMessages") || "[]"
+      localStorage.getItem("encrypted") || "[]"
     );
     const decrypted = JSON.parse(
-      localStorage.getItem("decryptedMessages") || "[]"
+      localStorage.getItem("decrypted") || "[]"
     );
     setKeys(keys);
     setEncrypted(encrypted);
