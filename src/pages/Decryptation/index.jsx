@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import colors from "../../assets/colors";
-import binary from "../../assets/binary-code.png";
-import { useNavigate } from "react-router-dom";
+import binaryFirst from "../../assets/binary-code.png";
 import { FaRegCopy } from "react-icons/fa";
 import { StartButton } from "../styledComponents";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -14,6 +13,8 @@ import { useEncrypted } from "../../contexts/encryptedContext";
 import { useDecrypted } from "../../contexts/decryptedContext";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import illustration from "../../assets/decrypt.png"
+import binary from "../../assets/binary.png"
 
 export default function Decryptation({
   loading,
@@ -99,12 +100,14 @@ export default function Decryptation({
       />
       <Header sidebar={sidebar} setSidebar={setSidebar} />
       <Title>
+      <img src={illustration}/>
         <h1>
+          
           Desen<strong>cript</strong>ação
         </h1>
       </Title>
       <RightContainer>
-        <img src={binary} />
+        <img src={binaryFirst} />
         <Form onSubmit={sendForm}>
           <div className="textarea">
             <textarea
@@ -193,11 +196,26 @@ const PageContainer = styled.div`
 const Title = styled.div`
   width: 30vw;
   height: 100vh;
-  background-color: ${colors.darkPurple};
+  position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative;
+  >img{
+    width: 70%;
+  }
+  &:before {
+    content: "";
+    background-image: url(${binary});
+    opacity: 0.2; /* Adjust the opacity value as needed */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Ensure it's behind the content */
+  }
+
   > svg {
     position: absolute;
     top: 1vw;
@@ -207,11 +225,12 @@ const Title = styled.div`
     color: ${colors.lightPurple};
     cursor: pointer;
   }
+
   > h1 {
     color: #fff;
     text-align: center;
     font-family: Red Hat Text;
-    font-size: 50px;
+    font-size: 3vw;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
