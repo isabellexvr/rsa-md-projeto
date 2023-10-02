@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import colors from "../../assets/colors";
-import binaryFirst from "../../assets/binary-code.png";
 import { useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 import { StartButton } from "../styledComponents";
@@ -13,8 +12,9 @@ import { useEncrypted } from "../../contexts/encryptedContext";
 import { useDecrypted } from "../../contexts/decryptedContext";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import binary from "../../assets/binary.png"
-import illustration from "../../assets/encrypt.png"
+import binary from "../../assets/binary.png";
+import illustration from "../../assets/encrypt.png";
+import BeatLoader from "react-spinners/BeatLoader";
 
 export default function Encryptation({
   loading,
@@ -101,16 +101,16 @@ export default function Encryptation({
       />
       <Header sidebar={sidebar} setSidebar={setSidebar} />
       <Title>
-        <img src={illustration}/>
+        <img src={illustration} />
         <h1>
           En<strong>cript</strong>ação
         </h1>
       </Title>
       <RightContainer>
-        <img src={binaryFirst} />
         <Form onSubmit={sendForm}>
           <div className="textarea">
             <textarea
+            required
               onChange={handleForm}
               name="message"
               placeholder="Mensagem"
@@ -123,6 +123,7 @@ export default function Encryptation({
           <div className="inputs">
             <div className="input">
               <SmallInput
+              required
                 onChange={handleForm}
                 type="number"
                 name="n"
@@ -132,6 +133,7 @@ export default function Encryptation({
             </div>
             <div className="input">
               <SmallInput
+              required
                 onChange={handleForm}
                 type="number"
                 name="e"
@@ -161,7 +163,13 @@ export default function Encryptation({
               {copied && <CopiedMessage>Copiado!</CopiedMessage>}
             </div>
           </EncryptedText>
-          <StartButton type="submit">ENCRIPTAR</StartButton>
+          {loading ? (
+            <StartButton disabled>
+              <BeatLoader color="white" />
+            </StartButton>
+          ) : (
+            <StartButton type="submit">ENCRIPTAR</StartButton>
+          )}
         </Form>
       </RightContainer>
       <ToastContainer />
@@ -198,7 +206,7 @@ const Title = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  >img{
+  > img {
     width: 70%;
   }
   &:before {
@@ -241,13 +249,6 @@ const RightContainer = styled.div`
   background-color: ${colors.black};
   width: 70vw;
   position: relative;
-  > img {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0.2;
-  }
 `;
 
 const Form = styled.form`

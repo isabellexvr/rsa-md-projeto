@@ -3,7 +3,6 @@ import { BiSolidKey } from "react-icons/bi";
 import colors from "../../assets/colors";
 import { FaRegCopy } from "react-icons/fa";
 import { StartButton } from "../styledComponents";
-import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
@@ -15,7 +14,8 @@ import { useEncrypted } from "../../contexts/encryptedContext";
 import { useDecrypted } from "../../contexts/decryptedContext";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import binary from "../../assets/binary.png"
+import binary from "../../assets/binary.png";
+import BeatLoader from "react-spinners/BeatLoader";
 
 export default function PublicKey({
   loading,
@@ -119,6 +119,7 @@ export default function PublicKey({
           <div className="inputs">
             <div className="input">
               <SmallInput
+                required
                 type="number"
                 pattern="[0-9]+"
                 name="p"
@@ -130,6 +131,7 @@ export default function PublicKey({
             </div>
             <div className="input">
               <SmallInput
+                required
                 type="number"
                 pattern="[0-9]+"
                 name="q"
@@ -141,6 +143,7 @@ export default function PublicKey({
             </div>
             <div className="input">
               <SmallInput
+                required
                 type="number"
                 pattern="[0-9]+"
                 name="e"
@@ -175,11 +178,17 @@ export default function PublicKey({
               {copied && <CopiedMessage>Copiado!</CopiedMessage>}
             </div>
           </EncryptedText>
-          <StartButton>GERAR CHAVE</StartButton>
+          {loading ? (
+            <StartButton disabled>
+              <BeatLoader color="white" />
+            </StartButton>
+          ) : (
+            <StartButton>GERAR CHAVE</StartButton>
+          )}
         </Form>
         <ToastContainer />
         <LeftBinary src={binary} />
-      <RightBinary src={binary} />
+        <RightBinary src={binary} />
       </PageContainer>
     </>
   );

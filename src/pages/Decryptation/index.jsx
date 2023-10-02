@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import colors from "../../assets/colors";
-import binaryFirst from "../../assets/binary-code.png";
 import { FaRegCopy } from "react-icons/fa";
 import { StartButton } from "../styledComponents";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -13,8 +12,9 @@ import { useEncrypted } from "../../contexts/encryptedContext";
 import { useDecrypted } from "../../contexts/decryptedContext";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import illustration from "../../assets/decrypt.png"
-import binary from "../../assets/binary.png"
+import illustration from "../../assets/decrypt.png";
+import binary from "../../assets/binary.png";
+import BeatLoader from "react-spinners/BeatLoader";
 
 export default function Decryptation({
   loading,
@@ -100,17 +100,16 @@ export default function Decryptation({
       />
       <Header sidebar={sidebar} setSidebar={setSidebar} />
       <Title>
-      <img src={illustration}/>
+        <img src={illustration} />
         <h1>
-          
           Desen<strong>cript</strong>ação
         </h1>
       </Title>
       <RightContainer>
-        <img src={binaryFirst} />
         <Form onSubmit={sendForm}>
           <div className="textarea">
             <textarea
+            required
               onChange={handleForm}
               name="encryptedStr"
               placeholder="Mensagem Encriptada"
@@ -123,6 +122,7 @@ export default function Decryptation({
           <div className="inputs">
             <div className="input">
               <SmallInput
+              required
                 onChange={handleForm}
                 type="number"
                 name="p"
@@ -132,6 +132,7 @@ export default function Decryptation({
             </div>
             <div className="input">
               <SmallInput
+              required
                 onChange={handleForm}
                 type="number"
                 name="q"
@@ -141,6 +142,7 @@ export default function Decryptation({
             </div>
             <div className="input">
               <SmallInput
+              required
                 onChange={handleForm}
                 type="number"
                 name="e"
@@ -170,7 +172,13 @@ export default function Decryptation({
               {copied && <CopiedMessage>Copiado!</CopiedMessage>}
             </div>
           </EncryptedText>
-          <StartButton type="submit">DESENCRIPTAR</StartButton>
+          {loading ? (
+            <StartButton disabled>
+              <BeatLoader color="white" />
+            </StartButton>
+          ) : (
+            <StartButton type="submit">DESENCRIPTAR</StartButton>
+          )}
         </Form>
       </RightContainer>
       <ToastContainer />
@@ -201,7 +209,7 @@ const Title = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  >img{
+  > img {
     width: 70%;
   }
   &:before {
@@ -244,13 +252,6 @@ const RightContainer = styled.div`
   background-color: ${colors.black};
   width: 70vw;
   position: relative;
-  > img {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0.2;
-  }
 `;
 
 const Form = styled.form`
