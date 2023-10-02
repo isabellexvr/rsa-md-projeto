@@ -118,6 +118,7 @@ export default function PublicKey({
         <Form onSubmit={sendForm}>
           <div className="inputs">
             <div className="input">
+              <h1>Um número primo</h1>
               <SmallInput
                 required
                 type="number"
@@ -130,6 +131,7 @@ export default function PublicKey({
               <Line />
             </div>
             <div className="input">
+            <h1>Um número primo</h1>
               <SmallInput
                 required
                 type="number"
@@ -141,7 +143,9 @@ export default function PublicKey({
               />
               <Line />
             </div>
+            
             <div className="input">
+            <h1>Um número coprimo a (p-1)*(q-1)</h1>
               <SmallInput
                 required
                 type="number"
@@ -197,21 +201,23 @@ export default function PublicKey({
 const LeftBinary = styled.img`
   position: absolute;
   opacity: 0.2;
-  left: 0;
+  left: -1.5vw;
   top: 0;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover; /* or 'contain' based on your preference */
+  width: 20vw;
+  max-width: 100vw;
+  max-height: 100vh;
+  object-fit: contain; /* or 'contain' based on your preference */
 `;
 
 const RightBinary = styled.img`
   position: absolute;
-  top: 0;
-  right: 0;
   opacity: 0.2;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover; /* or 'contain' based on your preference */
+  right: 0vw;
+  top: 0;
+  width: 19vw;
+  max-width: 100vw;
+  max-height: 100vh;
+  object-fit: contain; /* or 'contain' based on your preference */
 `;
 
 const CopiedMessage = styled.h1`
@@ -311,12 +317,21 @@ const Form = styled.form`
     justify-content: space-around;
     width: 35vw;
     margin-bottom: 4.5vw;
-    margin-top: 3vw;
+    margin-top: 5vw;
 
     > .input {
       font-family: Red Hat Mono;
       position: relative;
-      //margin-right: 3vw;
+      width: 25%;
+      position: relative;
+      >h1{
+        text-align: center;
+        position: absolute;
+        color: ${colors.lightPurple};
+        font-size: 0.9vw;
+        top: -2vw;
+        font-weight: 500;
+      }
     }
   }
 `;

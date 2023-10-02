@@ -10,7 +10,7 @@ export default function Options() {
   return (
     <PageContainer>
       <Title>
-        <h1>O Que deseja?</h1>
+        <h1>O Que Deseja?</h1>
       </Title>
       <div className="options">
         <div className="option" onClick={() => navigate("/public-key")}>

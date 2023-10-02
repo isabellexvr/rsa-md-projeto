@@ -211,6 +211,7 @@ const Title = styled.div`
   justify-content: center;
   > img {
     width: 70%;
+    z-index:1;
   }
   &:before {
     content: "";
