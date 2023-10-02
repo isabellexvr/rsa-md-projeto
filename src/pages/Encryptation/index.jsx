@@ -4,7 +4,6 @@ import binary from "../../assets/binary-code.png";
 import { useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 import { StartButton } from "../styledComponents";
-import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -28,8 +27,6 @@ export default function Encryptation({
   const { keys, setKeys } = useKeys();
   const { encrypted, setEncrypted } = useEncrypted();
   const { decrypted, setDecrypted } = useDecrypted();
-
-  const navigate = useNavigate();
 
   const handleForm = ({ target: { value, name } }) => {
     setForm({ ...form, [name]: value });
@@ -103,7 +100,6 @@ export default function Encryptation({
       />
       <Header sidebar={sidebar} setSidebar={setSidebar} />
       <Title>
-        <BsFillArrowLeftCircleFill onClick={() => navigate("/options")} />
         <h1>
           En<strong>cript</strong>ação
         </h1>

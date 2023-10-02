@@ -1,14 +1,18 @@
 import styled from "styled-components";
 import { TfiMenu } from "react-icons/tfi";
 import colors from "../../assets/colors";
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 export default function Header({ sidebar, setSidebar }) {
+
+  const navigate = useNavigate();
   return (
     <HeaderContainer>
+      <BackIcon onClick={() => navigate("/options")} />
       <MenuIcon
         onClick={() => {
           setSidebar(!sidebar);
-          console.log(sidebar);
         }}
       />
     </HeaderContainer>
@@ -29,6 +33,17 @@ const MenuIcon = styled(TfiMenu)`
   font-size: 2vw;
   right: 2vw;
   top: 2vw;
+  color: ${colors.mediumPurple};
+  z-index: 1;
+`;
+
+const BackIcon = styled(BsFillArrowLeftCircleFill)`
+    left: 2vw;
+  top: 2vw;
   cursor: pointer;
   color: ${colors.mediumPurple};
-`;
+  z-index: 1;
+  position: absolute;
+  cursor: pointer;
+  font-size: 2vw;
+`

@@ -15,6 +15,7 @@ import { useEncrypted } from "../../contexts/encryptedContext";
 import { useDecrypted } from "../../contexts/decryptedContext";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import binary from "../../assets/binary.png"
 
 export default function PublicKey({
   loading,
@@ -104,8 +105,6 @@ export default function PublicKey({
       <Header sidebar={sidebar} setSidebar={setSidebar} />
       <PageContainer>
         <div className="top">
-          <BsFillArrowLeftCircleFill onClick={() => navigate("/options")} />
-
           <BiSolidKey />
           <h1>
             Chave <strong>Pública</strong>
@@ -179,10 +178,32 @@ export default function PublicKey({
           <StartButton>GERAR CHAVE</StartButton>
         </Form>
         <ToastContainer />
+        <LeftBinary src={binary} />
+      <RightBinary src={binary} />
       </PageContainer>
     </>
   );
 }
+
+const LeftBinary = styled.img`
+  position: absolute;
+  opacity: 0.2;
+  left: 0;
+  top: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover; /* or 'contain' based on your preference */
+`;
+
+const RightBinary = styled.img`
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0.2;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover; /* or 'contain' based on your preference */
+`;
 
 const CopiedMessage = styled.h1`
   font-size: 0.7vw;
@@ -219,7 +240,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  width: 60vw;
+  width: 100vw;
   height: 100vh;
   padding: 5vw;
   box-sizing: border-box;
@@ -228,13 +249,6 @@ const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    > svg:first-child {
-      position: absolute;
-      font-size: 2vw;
-      left: 12vw;
-      top: 5vw;
-      cursor: pointer;
-    }
     > svg {
       font-size: 5vw;
       color: ${colors.mediumPurple};
