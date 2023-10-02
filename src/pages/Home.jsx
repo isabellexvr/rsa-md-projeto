@@ -4,27 +4,27 @@ import { useNavigate } from "react-router-dom";
 import { useKeys } from "../contexts/keysContext";
 import { useEncrypted } from "../contexts/encryptedContext";
 import { useDecrypted } from "../contexts/decryptedContext";
+import { useEffect, useState } from "react";
 
-export default function Home() {
+export default function Home({loading ,setLoading}) {
   const navigate = useNavigate();
 
-  const { setKeys } = useKeys();
-  const { setEncrypted } = useEncrypted();
-  const { setDecrypted } = useDecrypted();
+    const { keys, setKeys } = useKeys();
+  const { encrypted, setEncrypted } = useEncrypted();
+  const { decrypted, setDecrypted } = useDecrypted();
 
-  const firstTime = JSON.parse(localStorage.getItem("keys") || "[]");
-  if (!firstTime) {
-    const emptyArr = [];
-    localStorage.setItem("keys", JSON.stringify(emptyArr));
-    localStorage.setItem("encrypted", JSON.stringify(emptyArr));
-    localStorage.setItem("decrypted", JSON.stringify(emptyArr));
-  } else {
-    setKeys(firstTime);
-    const encrypted = JSON.parse(localStorage.getItem("encrypted") || "[]");
-    const decrypted = JSON.parse(localStorage.getItem("decrypted") || "[]");
+  useEffect(() => {
+    const keys = JSON.parse(localStorage.getItem("keys") || "[]");
+    const encrypted = JSON.parse(
+      localStorage.getItem("encryptedMessages") || "[]"
+    );
+    const decrypted = JSON.parse(
+      localStorage.getItem("decryptedMessages") || "[]"
+    );
+    setKeys(keys);
     setEncrypted(encrypted);
     setDecrypted(decrypted);
-  }
+  }, []);
 
   return (
     <HomeContainer>

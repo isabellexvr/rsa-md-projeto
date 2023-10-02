@@ -8,13 +8,26 @@ import { StartButton } from "../styledComponents";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import axios from "axios";
 import { useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useKeys } from "../../contexts/keysContext";
+import { useEncrypted } from "../../contexts/encryptedContext";
+import { useDecrypted } from "../../contexts/decryptedContext";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 
-export default function Decryptation({ loading, setLoading }) {
+export default function Decryptation({
+  loading,
+  setLoading,
+  sidebar,
+  setSidebar,
+}) {
   const [form, setForm] = useState({});
   const [copied, setCopied] = useState(false);
   const [decryptedText, setDecryptedText] = useState(null);
+  const { keys, setKeys } = useKeys();
+  const { encrypted, setEncrypted } = useEncrypted();
+  const { decrypted, setDecrypted } = useDecrypted();
 
   const navigate = useNavigate();
 
@@ -33,7 +46,7 @@ export default function Decryptation({ loading, setLoading }) {
         .post("https://rsa-back.onrender.com/desencriptar", form)
         .then((answer) => {
           setDecryptedText(answer.data);
-          toast.success('Mensagem Desencriptada com Sucesso!', {
+          toast.success("Mensagem Desencriptada com Sucesso!", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -42,7 +55,19 @@ export default function Decryptation({ loading, setLoading }) {
             draggable: true,
             progress: undefined,
             theme: "dark",
-            });
+          });
+
+          const localDecrypted = JSON.parse(localStorage.getItem("decrypted"));
+          if (!localDecrypted) {
+            const newArr = [answer.data];
+            localStorage.setItem("decrypted", JSON.stringify(newArr));
+          } else {
+            localDecrypted.push(answer.data);
+            localStorage.setItem("decrypted", JSON.stringify(localDecrypted));
+          }
+
+          setDecrypted(localDecrypted);
+          setLoading(false);
         })
         .catch((err) => {
           toast.error("Algo deu errado.", {
@@ -54,7 +79,7 @@ export default function Decryptation({ loading, setLoading }) {
             draggable: true,
             progress: undefined,
             theme: "dark",
-            });
+          });
           console.log(err);
         });
     } catch (err) {
@@ -64,6 +89,18 @@ export default function Decryptation({ loading, setLoading }) {
 
   return (
     <PageContainer>
+      <Sidebar
+        sidebar={sidebar}
+        setSidebar={setSidebar}
+        keys={keys}
+        setKeys={setKeys}
+        encrypted={encrypted}
+        setEncrypted={setEncrypted}
+        decrypted={decrypted}
+        setDecrypted={setDecrypted}
+        loading={loading}
+      />
+      <Header sidebar={sidebar} setSidebar={setSidebar} />
       <Title>
         <BsFillArrowLeftCircleFill onClick={() => navigate("/options")} />
         <h1>
@@ -137,7 +174,7 @@ export default function Decryptation({ loading, setLoading }) {
           <StartButton type="submit">DESENCRIPTAR</StartButton>
         </Form>
       </RightContainer>
-      <ToastContainer/>
+      <ToastContainer />
     </PageContainer>
   );
 }

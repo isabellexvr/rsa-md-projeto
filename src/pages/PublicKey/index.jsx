@@ -69,6 +69,7 @@ export default function PublicKey({
           }
 
           setKeys(localKeys);
+          setLoading(false);
         })
         .catch((err) => {
           toast.error("Erro: " + err.response.data, {
@@ -98,6 +99,7 @@ export default function PublicKey({
         setEncrypted={setEncrypted}
         decrypted={decrypted}
         setDecrypted={setDecrypted}
+        loading={loading}
       />
       <Header sidebar={sidebar} setSidebar={setSidebar} />
       <PageContainer>

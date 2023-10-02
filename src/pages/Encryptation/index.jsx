@@ -8,14 +8,26 @@ import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useKeys } from "../../contexts/keysContext";
+import { useEncrypted } from "../../contexts/encryptedContext";
+import { useDecrypted } from "../../contexts/decryptedContext";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 
-export default function Encryptation({ loading, setLoading }) {
-
+export default function Encryptation({
+  loading,
+  setLoading,
+  sidebar,
+  setSidebar,
+}) {
   const [form, setForm] = useState({});
   const [copied, setCopied] = useState(false);
   const [encryptedText, setEncryptedText] = useState(null);
+  const { keys, setKeys } = useKeys();
+  const { encrypted, setEncrypted } = useEncrypted();
+  const { decrypted, setDecrypted } = useDecrypted();
 
   const navigate = useNavigate();
 
@@ -28,12 +40,15 @@ export default function Encryptation({ loading, setLoading }) {
     setLoading(true);
     //https://rsa-back.onrender.com/encriptar
     //http://localhost:4000/encriptar
-    const sentForm = {...form, message: form.message.normalize("NFD").replace(/[\u0300-\u036f]/g, "")};
-     try {
+    const sentForm = {
+      ...form,
+      message: form.message.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+    };
+    try {
       axios
         .post("https://rsa-back.onrender.com/encriptar", sentForm)
         .then((answer) => {
-          toast.success('Mensagem Encriptada com Sucesso!', {
+          toast.success("Mensagem Encriptada com Sucesso!", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -42,8 +57,19 @@ export default function Encryptation({ loading, setLoading }) {
             draggable: true,
             progress: undefined,
             theme: "dark",
-            });
+          });
           setEncryptedText(answer.data);
+          const localEncrypted = JSON.parse(localStorage.getItem("encrypted"));
+          if (!localEncrypted) {
+            const newArr = [answer.data];
+            localStorage.setItem("encrypted", JSON.stringify(newArr));
+          } else {
+            localEncrypted.push(answer.data);
+            localStorage.setItem("encrypted", JSON.stringify(localEncrypted));
+          }
+
+          setEncrypted(localEncrypted);
+          setLoading(false);
         })
         .catch((err) => {
           toast.error("Algo deu errado.", {
@@ -55,15 +81,27 @@ export default function Encryptation({ loading, setLoading }) {
             draggable: true,
             progress: undefined,
             theme: "dark",
-            });
+          });
           console.log(err);
         });
     } catch (err) {
       console.log(err);
-    } 
+    }
   };
   return (
     <PageContainer>
+      <Sidebar
+        sidebar={sidebar}
+        setSidebar={setSidebar}
+        keys={keys}
+        setKeys={setKeys}
+        encrypted={encrypted}
+        setEncrypted={setEncrypted}
+        decrypted={decrypted}
+        setDecrypted={setDecrypted}
+        loading={loading}
+      />
+      <Header sidebar={sidebar} setSidebar={setSidebar} />
       <Title>
         <BsFillArrowLeftCircleFill onClick={() => navigate("/options")} />
         <h1>
@@ -128,7 +166,7 @@ export default function Encryptation({ loading, setLoading }) {
           <StartButton type="submit">ENCRIPTAR</StartButton>
         </Form>
       </RightContainer>
-      <ToastContainer/>
+      <ToastContainer />
     </PageContainer>
   );
 }

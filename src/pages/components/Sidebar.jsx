@@ -14,9 +14,11 @@ export default function Sidebar({
   setEncrypted,
   decrypted,
   setDecrypted,
+  loading,
+  setLoading
 }) {
-  console.log(sidebar);
-  const [copied, setCopied] = useState(false);
+
+  console.log(loading)
 
   useEffect(() => {
     const keys = JSON.parse(localStorage.getItem("keys") || "[]");
@@ -29,7 +31,7 @@ export default function Sidebar({
     setKeys(keys);
     setEncrypted(encrypted);
     setDecrypted(decrypted);
-  }, []);
+  }, [sidebar, loading]);
   return (
     <>
       {sidebar && (
@@ -52,12 +54,8 @@ export default function Sidebar({
                         </h2>
                         <CopyToClipboard
                           text={k}
-                          onCopy={() => {
-                            setCopied(true);
-                            setTimeout(() => setCopied(false), 3000);
-                          }}
                         >
-                          <CopyIcon copied={copied} />
+                          <CopyIcon />
                         </CopyToClipboard>
                       </Chave>
                     ))}
@@ -67,10 +65,49 @@ export default function Sidebar({
                 )}
               </Section>
               <Section>
-                <h1>Mensagens Encriptadas:</h1>
+                {encrypted.length > 0 ? (
+                  <Chaves>
+                    <h1>Mensagens Encriptadas:</h1>
+                    {encrypted.map((k, i) => (
+                      <Chave key={i}>
+                        <h2>
+                          {" "}
+                          {i + 1}. <strong>{k}</strong>
+                        </h2>
+                        <CopyToClipboard
+                          text={k}
+  
+                        >
+                          <CopyIcon  />
+                        </CopyToClipboard>
+                      </Chave>
+                    ))}
+                  </Chaves>
+                ) : (
+                  <h1>Você ainda não possui mensagens encriptadas.</h1>
+                )}
               </Section>
               <Section>
-                <h1>Mensagens Desencriptadas:</h1>
+                {decrypted.length > 0 ? (
+                  <Chaves>
+                    <h1>Mensagens Desencriptadas:</h1>
+                    {decrypted.map((k, i) => (
+                      <Chave key={i}>
+                        <h2>
+                          {" "}
+                          {i + 1}. <strong>{k}</strong>
+                        </h2>
+                        <CopyToClipboard
+                          text={k}
+                        >
+                          <CopyIcon  />
+                        </CopyToClipboard>
+                      </Chave>
+                    ))}
+                  </Chaves>
+                ) : (
+                  <h1>Você ainda não possui mensagens desencriptadas.</h1>
+                )}
               </Section>
             </HistoryContainer>
           </RightSide>
