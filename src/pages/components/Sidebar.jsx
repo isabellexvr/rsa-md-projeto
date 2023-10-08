@@ -40,7 +40,7 @@ export default function Sidebar({
               <Section>
                 {keys.length > 0 ? (
                   <Chaves>
-                    <h1>Chaves:</h1>
+                    <h1>Chaves Públicas</h1>
                     {keys.map((k, i) => (
                       <Chave key={i}>
                         <h2>
@@ -60,7 +60,7 @@ export default function Sidebar({
               <Section>
                 {encrypted.length > 0 ? (
                   <Chaves>
-                    <h1>Mensagens Encriptadas:</h1>
+                    <h1>Mensagens Encriptadas</h1>
                     {encrypted.map((k, i) => (
                       <Chave key={i}>
                         <h2>
@@ -80,7 +80,7 @@ export default function Sidebar({
               <Section>
                 {decrypted.length > 0 ? (
                   <Chaves>
-                    <h1>Mensagens Desencriptadas:</h1>
+                    <h1>Mensagens Desencriptadas</h1>
                     {decrypted.map((k, i) => (
                       <Chave key={i}>
                         <h2>
