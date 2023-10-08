@@ -30,6 +30,8 @@ export default function Sidebar({
     setEncrypted(encrypted);
     setDecrypted(decrypted);
   }, [sidebar, loading]);
+  //console.log(encrypted);
+  
   return (
     <>
       {sidebar && (
@@ -122,6 +124,7 @@ const Chaves = styled.div`
   flex-direction: column;
   align-items: center;
   > h1 {
+
     color: ${colors.black};
     text-align: center;
     margin-bottom: 0.6vw;
@@ -129,20 +132,23 @@ const Chaves = styled.div`
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    width: 70%;
+    width: 80%;
   }
 `;
 
 const Chave = styled.div`
   display: flex;
   padding: 0.15vw;
-  align-items: center;
+  align-items: flex-start;
+width: 85%;
+justify-content: space-around;
 
   > h2 {
     text-align: left;
-    width: 10vw;
+    width: 90%;
     height: fit-content;
     line-height: 1.35vw;
+
     > strong {
       font-weight: 500;
       color: ${colors.mediumPurple};
@@ -151,7 +157,8 @@ const Chave = styled.div`
 `;
 
 const CopyIcon = styled(FaRegCopy)`
-  font-size: 1vw;
+width: 10%;
+font-size: 1.25vw;
   cursor: pointer;
   color: ${(p) => (p.copied ? "green" : colors.mediumPurple)};
 `;
