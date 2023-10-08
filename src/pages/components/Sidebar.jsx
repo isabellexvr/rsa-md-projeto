@@ -47,7 +47,7 @@ export default function Sidebar({
                           {" "}
                           {i + 1}. <strong>{k}</strong>
                         </h2>
-                        <CopyToClipboard text={k}>
+                        <CopyToClipboard text={(k.match(/(\d+)/)) ? (k.match(/(\d+)/))[0] : ""}>
                           <CopyIcon />
                         </CopyToClipboard>
                       </Chave>
@@ -67,7 +67,7 @@ export default function Sidebar({
                           {" "}
                           {i + 1}. <strong>{k}</strong>
                         </h2>
-                        <CopyToClipboard text={k}>
+                        <CopyToClipboard text={ k }>
                           <CopyIcon />
                         </CopyToClipboard>
                       </Chave>

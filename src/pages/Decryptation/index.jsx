@@ -154,7 +154,7 @@ export default function Decryptation({
           <EncryptedText>
             {decryptedText ? (
               <KeyAnswer>
-                <h1>{decryptedText}</h1>
+                <h1> {">"} {decryptedText}</h1>
               </KeyAnswer>
             ) : (
               <h2>O texto encriptado aparecerá aqui.</h2>
@@ -348,9 +348,11 @@ const KeyAnswer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   > h1,
   h3 {
-    width: 90%;
+    //background-color: red;
+    width: 75%;
     line-height: 1.8vw;
     color: ${colors.darkPurple};
     text-align: justify;

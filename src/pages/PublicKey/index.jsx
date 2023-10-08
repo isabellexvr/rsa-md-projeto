@@ -171,7 +171,7 @@ export default function PublicKey({
             )}
             <div className="copy">
               <CopyToClipboard
-                text={publicKey}
+                text={(publicKey?.match(/(\d+)/)) ? (publicKey.match(/(\d+)/))[0] : ""}
                 onCopy={() => {
                   setCopied(true);
                   setTimeout(() => setCopied(false), 3000);
