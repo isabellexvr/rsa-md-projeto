@@ -10,7 +10,7 @@ export default function Header({ sidebar, setSidebar }) {
   return (
     <HeaderContainer>
       <BackIcon onClick={() => navigate("/options")} />
-      <MenuIcon
+      <MenuIcon appear={sidebar}
         onClick={() => {
           setSidebar(!sidebar);
         }}
@@ -28,6 +28,7 @@ const HeaderContainer = styled.div`
 `;
 
 const MenuIcon = styled(TfiMenu)`
+display: ${p => p.appear ? "none" : "initial"};
   position: absolute;
   cursor: pointer;
   font-size: 2vw;
