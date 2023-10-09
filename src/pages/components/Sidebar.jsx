@@ -204,6 +204,7 @@ const Section = styled.div`
   box-sizing: border-box;
   font-family: Red Hat Text;
   z-index: 1;
+  color: ${colors.grey};
 `;
 
 const Title = styled.h1`
