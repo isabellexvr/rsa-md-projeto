@@ -41,7 +41,7 @@ export default function Decryptation({
       //https://rsa-back.onrender.com
       //http://localhost:4000/desencriptar
       axios
-        .post("https://rsa-back.onrender.com/desencriptar", form)
+        .post("https://thoughtful-tan-culottes.cyclic.app/desencriptar", form)
         .then((answer) => {
           setDecryptedText(answer.data);
           toast.success("Mensagem Desencriptada com Sucesso!", {
