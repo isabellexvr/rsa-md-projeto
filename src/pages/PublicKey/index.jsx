@@ -46,7 +46,7 @@ export default function PublicKey({
       //https://rsa-back.onrender.com
       //http://localhost:4000/public-key
       axios
-        .post("https://rsa-back.onrender.com/public-key", { pqe: numStr })
+        .post("https://thoughtful-tan-culottes.cyclic.app/public-key", { pqe: numStr })
         .then((answer) => {
           //console.log(answer.data);
           toast.success("Chave Gerada com Sucesso!", {
