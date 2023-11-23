@@ -44,7 +44,7 @@ export default function Encryptation({
     };
     try {
       axios
-        .post("https://rsa-back.onrender.com/encriptar", sentForm)
+        .post("https://thoughtful-tan-culottes.cyclic.app/encriptar", sentForm)
         .then((answer) => {
           toast.success("Mensagem Encriptada com Sucesso!", {
             position: "top-right",
